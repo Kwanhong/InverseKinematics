@@ -9,3 +9,14 @@ D:\Personals\InversKinematics\obj\Debug\netcoreapp2.2\InversKinematics.AssemblyI
 D:\Personals\InversKinematics\obj\Debug\netcoreapp2.2\InversKinematics.AssemblyInfo.cs
 D:\Personals\InversKinematics\obj\Debug\netcoreapp2.2\InversKinematics.dll
 D:\Personals\InversKinematics\obj\Debug\netcoreapp2.2\InversKinematics.pdb
+D:\Personals\InversKinematics\Project\bin\Debug\netcoreapp2.2\InversKinematics.deps.json
+D:\Personals\InversKinematics\Project\bin\Debug\netcoreapp2.2\InversKinematics.runtimeconfig.json
+D:\Personals\InversKinematics\Project\bin\Debug\netcoreapp2.2\InversKinematics.runtimeconfig.dev.json
+D:\Personals\InversKinematics\Project\bin\Debug\netcoreapp2.2\InversKinematics.dll
+D:\Personals\InversKinematics\Project\bin\Debug\netcoreapp2.2\InversKinematics.pdb
+D:\Personals\InversKinematics\Project\obj\Debug\netcoreapp2.2\InversKinematics.csprojAssemblyReference.cache
+D:\Personals\InversKinematics\Project\obj\Debug\netcoreapp2.2\InversKinematics.csproj.CoreCompileInputs.cache
+D:\Personals\InversKinematics\Project\obj\Debug\netcoreapp2.2\InversKinematics.AssemblyInfoInputs.cache
+D:\Personals\InversKinematics\Project\obj\Debug\netcoreapp2.2\InversKinematics.AssemblyInfo.cs
+D:\Personals\InversKinematics\Project\obj\Debug\netcoreapp2.2\InversKinematics.dll
+D:\Personals\InversKinematics\Project\obj\Debug\netcoreapp2.2\InversKinematics.pdb
