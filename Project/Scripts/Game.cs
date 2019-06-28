@@ -45,7 +45,7 @@ namespace InversKinematics
         private void Render()
         {
             window.Display();
-            window.Clear(new Color(30, 30, 30));
+            window.Clear(new Color(46, 46, 46));
         }
 
         private void OnClose(object sender, EventArgs e)
