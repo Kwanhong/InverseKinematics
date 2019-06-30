@@ -16,10 +16,12 @@ namespace InversKinematics
         public float Length { get; set; }
         public float Angle { get; set; }
 
-        private Segment parent;
+        public Segment Parent {get;set;} = null;
+        public Segment Child {get;set;} = null;
+
         private float localAngle;
-        private float[] noise = Noise(256, 15);
-        private int noiseCount = 0;
+        private float[] noise = Noise(256, 20);
+        private int offset = 0;
 
         public Segment(float X, float Y, float length, float angle)
         {
@@ -30,35 +32,42 @@ namespace InversKinematics
             CalculateEndPos();
         }
 
-        public Segment(Segment parent, float length, float angle)
+        public Segment(Segment parent, float length, float angle, int offset)
         {
-            this.parent = parent;
-            this.StartPos = this.parent.EndPos;
+            this.Parent = parent;
+            this.StartPos = this.Parent.EndPos;
             this.Length = length;
             this.Angle = angle;
             this.localAngle = this.Angle;
+            this.offset = 50;
             CalculateEndPos();
         }
 
         public void Wiggle()
         {
-            localAngle = Map(noise[noiseCount], 0, 1, -1, 1);
-            if (noiseCount < noise.Length - 1) noiseCount++;
-            else noiseCount = 0;
+            float minAngle = - 0.1f;
+            float maxAngle = + 0.1f;
+            localAngle = Map(noise[offset], 0, 1, minAngle, maxAngle);
+            if (offset < noise.Length - 1) offset++;
+            else offset = 0;
         }
 
         public void Update()
         {
             this.Angle = localAngle;
+            if (this.Parent == null) {
+                this.Angle += -MathF.PI / 2;
+            }
             CalculateStartPos();
             CalculateEndPos();
+
         }
 
         private void CalculateStartPos()
         {
-            if (parent == null) return;
-            this.Angle += parent.Angle;
-            this.StartPos = parent.EndPos;
+            if (Parent == null) return;
+            this.Angle += Parent.Angle;
+            this.StartPos = Parent.EndPos;
         }
         private void CalculateEndPos()
         {
