@@ -92,7 +92,7 @@ namespace InversKinematics
         }
 
         //Perlin Noise
-        public static float[] Noise(int count, int octave = 10)
+        public static float[] Noise(int count, int octave = 10, float scaleFactor = 2f, int randomSeed = 456)
         {
             float[] output = new float[count];
             float[] seed = new float[count];
@@ -117,7 +117,7 @@ namespace InversKinematics
 
                     noise += sample * scale;
                     scaleAcc += scale;
-                    scale = scale / 8f;
+                    scale = scale / scaleFactor;
                 }
                 output[x] = noise / scaleAcc;
             }

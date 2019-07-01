@@ -21,7 +21,10 @@ namespace InversKinematics
 
         private float rootAngle;
         private float localAngle;
-        private float[] noise = Noise(800);
+
+        //Perlin Noize Factors
+        private float[] noise = Noise(800, octave: 10, scaleFactor: 8f, randomSeed: 456);
+        private int interval = 5;
         private int offset = 0;
 
         public Segment(float X, float Y, float length, float angle)
@@ -48,7 +51,6 @@ namespace InversKinematics
 
         public void Wiggle()
         {
-            int interval = 10;
             float minAngle = rootAngle - 0.1f;
             float maxAngle = rootAngle + 0.1f;
             localAngle = Map(noise[offset], GetMin(noise), GetMax(noise), minAngle, maxAngle);
