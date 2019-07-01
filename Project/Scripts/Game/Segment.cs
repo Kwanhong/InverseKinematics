@@ -22,32 +22,37 @@ namespace InversKinematics
         private float rootAngle;
         private float localAngle;
 
-        //Perlin Noize Factors
+        // Perlin Noize Factors
         public NoiseFactors noiseFactors;
         private float[] noise;
         private float offset = 0;
 
+        // Root Segment
         public Segment(float X, float Y, float length, float angle, NoiseFactors noiseFactors)
         {
-            this.StartPos = new Vector2f(X, Y);
-            this.Length = length;
             this.Angle = angle;
             this.rootAngle = this.Angle;
             this.localAngle = this.Angle;
+
+            this.Length = length;
+            this.StartPos = new Vector2f(X, Y);
             this.noiseFactors = noiseFactors;
             this.noise = Noise(noiseFactors);
             CalculateEndPos();
         }
 
+        // Child Segment
         public Segment(Segment parent, float length, float angle, float offset)
         {
             this.Parent = parent;
             this.StartPos = this.Parent.EndPos;
             this.noiseFactors = this.Parent.noiseFactors;
-            this.Length = length;
+            
             this.Angle = angle;
             this.rootAngle = this.Angle;
             this.localAngle = this.Angle;
+
+            this.Length = length;
             this.offset = offset;
             this.noise = Noise(noiseFactors);
             CalculateEndPos();
