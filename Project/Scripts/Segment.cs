@@ -59,13 +59,13 @@ namespace InversKinematics
             {
                 this.Angle += -MathF.PI / 2;
             }
-            CalculateStartPos();
+            CalculateStartPos();    
             CalculateEndPos();
 
         }
 
         private void CalculateStartPos()
-        {
+        {   
             if (Parent == null) return;
             this.Angle += Parent.Angle;
             this.StartPos = Parent.EndPos;
@@ -79,9 +79,13 @@ namespace InversKinematics
 
         public void Display()
         {
-            VertexArray line = new VertexArray(PrimitiveType.Lines, 2);
-            line[0] = new Vertex(StartPos, Color.White);
-            line[1] = new Vertex(EndPos, Color.White);
+            Vector2f thicknessHalf = new Vector2f(Length * 0.1f, 0);
+            thicknessHalf = Limit(thicknessHalf, 0.5f, 100);
+            VertexArray line = new VertexArray(PrimitiveType.Quads, 4);
+            line[0] = new Vertex(StartPos - thicknessHalf, Color.White);
+            line[1] = new Vertex(StartPos+thicknessHalf, Color.White);
+            line[2] = new Vertex(EndPos+thicknessHalf, Color.White);
+            line[3] = new Vertex(EndPos-thicknessHalf, Color.White);
             window.Draw(line);
 
             VertexArray noiseLine = new VertexArray(PrimitiveType.Lines);

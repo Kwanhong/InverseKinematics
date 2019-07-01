@@ -25,11 +25,13 @@ namespace InversKinematics
             window.Closed += OnClose;
             window.KeyPressed += OnKeyPressed;
 
-            tentacleRoot = new Segment(winSizeX / 2, winSizeY, 10, DegreeToRadian(-45));
+            var len = 50f;
+            tentacleRoot = new Segment(winSizeX / 2, winSizeY, len, DegreeToRadian(-45));
             Segment current = tentacleRoot;
             for (int i = 0; i < 50; i++)
             {
-                Segment next = new Segment(current, 10, 0, (int)Map(i, 0, 50, 0, winSizeX));
+                len *= 0.9f;
+                Segment next = new Segment(current, len, 0, (int)Map(i, 0, 50, 0, winSizeX));
                 current.Child = next;
                 current = next;
             }
