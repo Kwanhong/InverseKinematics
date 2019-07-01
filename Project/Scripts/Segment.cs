@@ -79,13 +79,13 @@ namespace InversKinematics
 
         public void Display()
         {
-            Vector2f thicknessHalf = new Vector2f(Length * 0.1f, 0);
-            thicknessHalf = Limit(thicknessHalf, 0.5f, 100);
+            Vector2f thicknessHalf = new Vector2f(Length * 0.3f, 0);
+            thicknessHalf = Limit(thicknessHalf, 0.2f, 100);
             VertexArray line = new VertexArray(PrimitiveType.Quads, 4);
             line[0] = new Vertex(StartPos - thicknessHalf, Color.White);
             line[1] = new Vertex(StartPos+thicknessHalf, Color.White);
-            line[2] = new Vertex(EndPos+thicknessHalf, Color.White);
-            line[3] = new Vertex(EndPos-thicknessHalf, Color.White);
+            line[2] = new Vertex(EndPos+thicknessHalf * 0.9f, Color.White);
+            line[3] = new Vertex(EndPos-thicknessHalf * 0.9f, Color.White);
             window.Draw(line);
 
             VertexArray noiseLine = new VertexArray(PrimitiveType.Lines);

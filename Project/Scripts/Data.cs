@@ -14,7 +14,8 @@ namespace InversKinematics
         (
             new VideoMode(winSizeX, winSizeY),
             winTitle,
-            styles
+            styles,
+            new ContextSettings(1, 1, WinAntialiasingLevel)
         );
     }
 }

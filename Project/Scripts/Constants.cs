@@ -13,5 +13,6 @@ namespace InversKinematics
         public static uint winSizeY = 600;
         public static Styles styles = Styles.Resize;
         public static string winTitle = "INVERSE KINEMATIC";
+        public const uint WinAntialiasingLevel = 8;
     }
 }

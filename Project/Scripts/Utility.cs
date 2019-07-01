@@ -91,6 +91,7 @@ namespace InversKinematics
             return radian * MathF.PI / 180;
         }
 
+        //Perlin Noise
         public static float[] Noise(int count, int octave = 10)
         {
             float[] output = new float[count];
@@ -100,19 +101,17 @@ namespace InversKinematics
             for (int i = 0; i < count; i++)
                 seed[i] = (float)rand.NextDouble();
 
-            Console.WriteLine("seed : " + seed[0] + " " + seed[count - 1]);
-
             for (int x = 0; x < count; x++)
             {
                 float noise = 0f;
                 float scale = 1f;
                 float scaleAcc = 0f;
+
                 for (int o = 0; o < octave; o++)
                 {
                     int pitch = count >> o;
                     int sample1 = (x / pitch) * pitch;
                     int sample2 = (sample1 + pitch) % count;
-
                     float blend = (float)(x - sample1) / (float)pitch;
                     float sample = (1f - blend) * seed[sample1] + blend * seed[sample2];
 

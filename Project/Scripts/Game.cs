@@ -28,7 +28,7 @@ namespace InversKinematics
             var len = 50f;
             tentacleRoot = new Segment(winSizeX / 2, winSizeY, len, DegreeToRadian(-45));
             Segment current = tentacleRoot;
-            for (int i = 0; i < 50; i++)
+            for (int i = 0; i < 30; i++)
             {
                 len *= 0.9f;
                 Segment next = new Segment(current, len, 0, (int)Map(i, 0, 50, 0, winSizeX));
