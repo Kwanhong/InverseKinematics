@@ -11,7 +11,8 @@ namespace InversKinematics
 {
     public class Game
     {
-        private Segment tentacleRoot;
+        private int tentacleCount = 1;
+        private Tentacle[] tentacles;
 
         public Game()
         {
@@ -25,15 +26,12 @@ namespace InversKinematics
             window.Closed += OnClose;
             window.KeyPressed += OnKeyPressed;
 
-            var len = 30f;
-            tentacleRoot = new Segment(winSizeX / 2, winSizeY, len, DegreeToRadian(-90));
-            Segment current = tentacleRoot;
-            for (int i = 0; i < 50; i++)
+            tentacles = new Tentacle[tentacleCount];
+            for (int i = 0; i < tentacleCount; i++)
             {
-                len *= 0.95f;
-                Segment next = new Segment(current, len, 0, (int)Map(i, 0, 50, 0, winSizeX));
-                current.Child = next;
-                current = next;
+                NoiseFactors noiseFactors = new NoiseFactors(randomSeed: i, interval: 20);
+                float xPosition = Map(i, 0, tentacleCount, winSizeX * 0.45f, winSizeX * 0.55f);
+                tentacles[i] = new Tentacle(noiseFactors, posX: xPosition);
             }
         }
 
@@ -54,23 +52,14 @@ namespace InversKinematics
 
         private void Update()
         {
-            Segment next = tentacleRoot;
-            while (next != null)
-            {
-                next.Wiggle();
-                next.Update();
-                next = next.Child;
-            }
+            foreach (var tentacle in tentacles)
+                tentacle.Update();
         }
 
         private void Render()
         {
-            Segment next = tentacleRoot;
-            while (next != null)
-            {
-                next.Display();
-                next = next.Child;
-            }
+            foreach (var tentacle in tentacles)
+                tentacle.Display();
 
             window.Display();
             window.Clear(new Color(46, 46, 46));

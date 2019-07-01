@@ -23,29 +23,33 @@ namespace InversKinematics
         private float localAngle;
 
         //Perlin Noize Factors
-        private float[] noise = Noise(800, octave: 10, scaleFactor: 8f, randomSeed: 456);
-        private int interval = 5;
-        private int offset = 0;
+        public NoiseFactors noiseFactors;
+        private float[] noise;
+        private float offset = 0;
 
-        public Segment(float X, float Y, float length, float angle)
+        public Segment(float X, float Y, float length, float angle, NoiseFactors noiseFactors)
         {
             this.StartPos = new Vector2f(X, Y);
             this.Length = length;
             this.Angle = angle;
             this.rootAngle = this.Angle;
             this.localAngle = this.Angle;
+            this.noiseFactors = noiseFactors;
+            this.noise = Noise(noiseFactors);
             CalculateEndPos();
         }
 
-        public Segment(Segment parent, float length, float angle, int offset)
+        public Segment(Segment parent, float length, float angle, float offset)
         {
             this.Parent = parent;
             this.StartPos = this.Parent.EndPos;
+            this.noiseFactors = this.Parent.noiseFactors;
             this.Length = length;
             this.Angle = angle;
             this.rootAngle = this.Angle;
             this.localAngle = this.Angle;
             this.offset = offset;
+            this.noise = Noise(noiseFactors);
             CalculateEndPos();
         }
 
@@ -53,8 +57,8 @@ namespace InversKinematics
         {
             float minAngle = rootAngle - 0.1f;
             float maxAngle = rootAngle + 0.1f;
-            localAngle = Map(noise[offset], GetMin(noise), GetMax(noise), minAngle, maxAngle);
-            if (offset < noise.Length - interval) offset += interval;
+            localAngle = Map(noise[(int)offset], GetMin(noise), GetMax(noise), minAngle, maxAngle);
+            if (offset < (float)noise.Length - noiseFactors.Interval) offset += noiseFactors.Interval;
             else offset = 0;
         }
 
@@ -89,18 +93,14 @@ namespace InversKinematics
             rect.OutlineColor = new Color(225, 255, 255, 125);
             rect.Origin = new Vector2f(0, weight * 0.5f);
             rect.Position = StartPos;
-            rect.Rotation = RadianToDegree(Angle);
+            rect.Rotation = ToDegree(Angle);
             window.Draw(rect);
 
-            if (this.Parent == null)
-            {
-                VertexArray noiseLine = new VertexArray(PrimitiveType.Lines);
-                for (var i = 0; i < noise.Length; i++)
-                {
-                    noiseLine.Append(new Vertex(new Vector2f((float)i, noise[i] * 150), Color.White));
-                }
-                window.Draw(noiseLine);
-            }
+            // Displaying Perlin Noise
+            // VertexArray noiseLine = new VertexArray(PrimitiveType.Lines);
+            // for (var i = 0; i < noise.Length; i++)
+            //     noiseLine.Append(new Vertex(new Vector2f((float)i, noise[i] * 150), Color.White));
+            // window.Draw(noiseLine);
         }
     }
 }
