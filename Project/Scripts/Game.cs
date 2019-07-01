@@ -21,16 +21,16 @@ namespace InversKinematics
 
         private void Initialize()
         {
-            window.SetFramerateLimit(20);
+            window.SetFramerateLimit(60);
             window.Closed += OnClose;
             window.KeyPressed += OnKeyPressed;
 
-            var len = 50f;
-            tentacleRoot = new Segment(winSizeX / 2, winSizeY, len, DegreeToRadian(-45));
+            var len = 30f;
+            tentacleRoot = new Segment(winSizeX / 2, winSizeY, len, DegreeToRadian(-90));
             Segment current = tentacleRoot;
-            for (int i = 0; i < 30; i++)
+            for (int i = 0; i < 50; i++)
             {
-                len *= 0.9f;
+                len *= 0.95f;
                 Segment next = new Segment(current, len, 0, (int)Map(i, 0, 50, 0, winSizeX));
                 current.Child = next;
                 current = next;
@@ -55,7 +55,8 @@ namespace InversKinematics
         private void Update()
         {
             Segment next = tentacleRoot;
-            while (next != null) {
+            while (next != null)
+            {
                 next.Wiggle();
                 next.Update();
                 next = next.Child;
@@ -65,7 +66,8 @@ namespace InversKinematics
         private void Render()
         {
             Segment next = tentacleRoot;
-            while (next != null) {
+            while (next != null)
+            {
                 next.Display();
                 next = next.Child;
             }

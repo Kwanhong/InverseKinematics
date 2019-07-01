@@ -117,7 +117,7 @@ namespace InversKinematics
 
                     noise += sample * scale;
                     scaleAcc += scale;
-                    scale = scale / 2f;
+                    scale = scale / 8f;
                 }
                 output[x] = noise / scaleAcc;
             }

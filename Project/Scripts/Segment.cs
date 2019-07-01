@@ -19,6 +19,7 @@ namespace InversKinematics
         public Segment Parent { get; set; } = null;
         public Segment Child { get; set; } = null;
 
+        private float rootAngle;
         private float localAngle;
         private float[] noise = Noise(800);
         private int offset = 0;
@@ -28,6 +29,7 @@ namespace InversKinematics
             this.StartPos = new Vector2f(X, Y);
             this.Length = length;
             this.Angle = angle;
+            this.rootAngle = this.Angle;
             this.localAngle = this.Angle;
             CalculateEndPos();
         }
@@ -38,6 +40,7 @@ namespace InversKinematics
             this.StartPos = this.Parent.EndPos;
             this.Length = length;
             this.Angle = angle;
+            this.rootAngle = this.Angle;
             this.localAngle = this.Angle;
             this.offset = offset;
             CalculateEndPos();
@@ -45,27 +48,24 @@ namespace InversKinematics
 
         public void Wiggle()
         {
-            float minAngle = -0.1f;
-            float maxAngle = +0.1f;
+            int interval = 10;
+            float minAngle = rootAngle - 0.1f;
+            float maxAngle = rootAngle + 0.1f;
             localAngle = Map(noise[offset], GetMin(noise), GetMax(noise), minAngle, maxAngle);
-            if (offset < noise.Length - 1) offset++;
+            if (offset < noise.Length - interval) offset += interval;
             else offset = 0;
         }
 
         public void Update()
         {
             this.Angle = localAngle;
-            if (this.Parent == null)
-            {
-                this.Angle += -MathF.PI / 2;
-            }
-            CalculateStartPos();    
+            CalculateStartPos();
             CalculateEndPos();
 
         }
 
         private void CalculateStartPos()
-        {   
+        {
             if (Parent == null) return;
             this.Angle += Parent.Angle;
             this.StartPos = Parent.EndPos;
@@ -79,21 +79,26 @@ namespace InversKinematics
 
         public void Display()
         {
-            Vector2f thicknessHalf = new Vector2f(Length * 0.3f, 0);
-            thicknessHalf = Limit(thicknessHalf, 0.2f, 100);
-            VertexArray line = new VertexArray(PrimitiveType.Quads, 4);
-            line[0] = new Vertex(StartPos - thicknessHalf, Color.White);
-            line[1] = new Vertex(StartPos+thicknessHalf, Color.White);
-            line[2] = new Vertex(EndPos+thicknessHalf * 0.9f, Color.White);
-            line[3] = new Vertex(EndPos-thicknessHalf * 0.9f, Color.White);
-            window.Draw(line);
+            float weight = Length * 0.5f;
+            weight = Limit(weight, 0.2f, 100);
 
-            VertexArray noiseLine = new VertexArray(PrimitiveType.Lines);
-            for (var i = 0; i < noise.Length; i++)
+            RectangleShape rect = new RectangleShape(new Vector2f(Length, weight));
+            rect.OutlineThickness = 1f;
+            rect.OutlineColor = new Color(225, 255, 255, 125);
+            rect.Origin = new Vector2f(0, weight * 0.5f);
+            rect.Position = StartPos;
+            rect.Rotation = RadianToDegree(Angle);
+            window.Draw(rect);
+
+            if (this.Parent == null)
             {
-                noiseLine.Append(new Vertex(new Vector2f((float)i,  noise[i] * 150), Color.White));
+                VertexArray noiseLine = new VertexArray(PrimitiveType.Lines);
+                for (var i = 0; i < noise.Length; i++)
+                {
+                    noiseLine.Append(new Vertex(new Vector2f((float)i, noise[i] * 150), Color.White));
+                }
+                window.Draw(noiseLine);
             }
-            window.Draw(noiseLine);
         }
     }
 }
