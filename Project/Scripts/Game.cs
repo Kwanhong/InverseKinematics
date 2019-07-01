@@ -29,7 +29,7 @@ namespace InversKinematics
             Segment current = tentacleRoot;
             for (int i = 0; i < 50; i++)
             {
-                Segment next = new Segment(current, 10, 0, (int)Map(i, 0, 256, 0, 50));
+                Segment next = new Segment(current, 10, 0, (int)Map(i, 0, 50, 0, winSizeX));
                 current.Child = next;
                 current = next;
             }

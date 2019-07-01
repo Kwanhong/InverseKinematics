@@ -16,11 +16,11 @@ namespace InversKinematics
         public float Length { get; set; }
         public float Angle { get; set; }
 
-        public Segment Parent {get;set;} = null;
-        public Segment Child {get;set;} = null;
+        public Segment Parent { get; set; } = null;
+        public Segment Child { get; set; } = null;
 
         private float localAngle;
-        private float[] noise = Noise(256, 20);
+        private float[] noise = Noise(800);
         private int offset = 0;
 
         public Segment(float X, float Y, float length, float angle)
@@ -39,15 +39,15 @@ namespace InversKinematics
             this.Length = length;
             this.Angle = angle;
             this.localAngle = this.Angle;
-            this.offset = 50;
+            this.offset = offset;
             CalculateEndPos();
         }
 
         public void Wiggle()
         {
-            float minAngle = - 0.1f;
-            float maxAngle = + 0.1f;
-            localAngle = Map(noise[offset], 0, 1, minAngle, maxAngle);
+            float minAngle = -0.1f;
+            float maxAngle = +0.1f;
+            localAngle = Map(noise[offset], GetMin(noise), GetMax(noise), minAngle, maxAngle);
             if (offset < noise.Length - 1) offset++;
             else offset = 0;
         }
@@ -55,7 +55,8 @@ namespace InversKinematics
         public void Update()
         {
             this.Angle = localAngle;
-            if (this.Parent == null) {
+            if (this.Parent == null)
+            {
                 this.Angle += -MathF.PI / 2;
             }
             CalculateStartPos();
@@ -82,6 +83,13 @@ namespace InversKinematics
             line[0] = new Vertex(StartPos, Color.White);
             line[1] = new Vertex(EndPos, Color.White);
             window.Draw(line);
+
+            VertexArray noiseLine = new VertexArray(PrimitiveType.Lines);
+            for (var i = 0; i < noise.Length; i++)
+            {
+                noiseLine.Append(new Vertex(new Vector2f((float)i,  noise[i] * 150), Color.White));
+            }
+            window.Draw(noiseLine);
         }
     }
 }
