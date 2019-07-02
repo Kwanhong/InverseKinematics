@@ -11,7 +11,7 @@ namespace InversKinematics
 {
     public class Game
     {
-        private int tentacleCount = 1;
+        private int tentacleCount = 5;
         private Tentacle[] tentacles;
 
         public Game()
@@ -27,9 +27,10 @@ namespace InversKinematics
             window.KeyPressed += OnKeyPressed;
 
             tentacles = new Tentacle[tentacleCount];
+            Random rnd = new Random();
             for (int i = 0; i < tentacleCount; i++)
             {
-                NoiseFactors noiseFactors = new NoiseFactors(randomSeed: i, interval: 20);
+                NoiseFactors noiseFactors = new NoiseFactors(randomSeed: i + rnd.Next(100), interval: 5, softness: 2.25f);
                 float xPosition = Map(i, 0, tentacleCount, winSizeX * 0.45f, winSizeX * 0.55f);
                 tentacles[i] = new Tentacle(noiseFactors, posX: xPosition);
             }
@@ -69,11 +70,15 @@ namespace InversKinematics
         {
             window.Close();
         }
+        
         private void OnKeyPressed(object sender, KeyEventArgs e)
         {
             if (e.Code == Keyboard.Key.Escape)
             {
                 window.Close();
+            }
+            if (e.Code == Keyboard.Key.F5) {
+                Initialize();
             }
         }
     }
