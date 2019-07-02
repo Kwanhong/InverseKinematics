@@ -14,7 +14,7 @@ namespace InversKinematics
     {
         Vector2f head;
         List<IvsSegment> segments;
-        int segmentCount = 5;
+        int segmentCount;
 
         public Game()
         {
@@ -27,7 +27,8 @@ namespace InversKinematics
             window.SetFramerateLimit(60);
             window.Closed += OnClose;
             window.KeyPressed += OnKeyPressed;
-
+            
+            segmentCount = 5;
             segments = new List<IvsSegment>();
             segments.Add(new IvsSegment(winSizeX / 2, winSizeY / 2, 1, 0));
 
