@@ -95,7 +95,8 @@ namespace InversKinematics
 
             RectangleShape rect = new RectangleShape(new Vector2f(Length, weight));
             rect.OutlineThickness = 1f;
-            rect.OutlineColor = new Color(100, 100, 100, 125);
+            rect.OutlineColor = new Color(200, 200, 200, 125);
+            rect.FillColor = new Color(100, 100,100);
             rect.Origin = new Vector2f(0, weight * 0.5f);
             rect.Position = StartPos;
             rect.Rotation = ToDegree(Angle);
@@ -104,7 +105,7 @@ namespace InversKinematics
             // Displaying Perlin Noise
             VertexArray noiseLine = new VertexArray(PrimitiveType.Lines);
             for (var i = 0; i < noise.Length; i++)
-                noiseLine.Append(new Vertex(new Vector2f((float)i, noise[i] * 600), Color.White));
+                noiseLine.Append(new Vertex(new Vector2f((float)i, noise[i] * 600), new Color(100,100,100)));
             window.Draw(noiseLine);
         }
     }
