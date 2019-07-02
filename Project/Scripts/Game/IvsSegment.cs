@@ -10,10 +10,10 @@ namespace InversKinematics
 {
     public class IvsSegment
     {
-        Vector2f StartPos { get; set; }
-        Vector2f EndPos { get; set; }
-        float Length { get; set; }
-        float Angle { get; set; }
+        public Vector2f StartPos { get; set; }
+        public Vector2f EndPos { get; set; }
+        public float Length { get; set; }
+        public float Angle { get; set; }
 
         IvsSegment Parent {get;set;} = null;
 

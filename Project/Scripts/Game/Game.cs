@@ -12,8 +12,9 @@ namespace InversKinematics
 {
     public class Game
     {
+        Vector2f head;
         List<IvsSegment> segments;
-        int segmentCount = 50;
+        int segmentCount = 5;
 
         public Game()
         {
@@ -28,10 +29,12 @@ namespace InversKinematics
             window.KeyPressed += OnKeyPressed;
 
             segments = new List<IvsSegment>();
-            segments.Add(new IvsSegment(winSizeX / 2, winSizeY / 2, 10, 0));
+            segments.Add(new IvsSegment(winSizeX / 2, winSizeY / 2, 1, 0));
 
             for (int i = 1; i < segmentCount; i++)
-                segments.Add(new IvsSegment(segments[i - 1], 10, 0));
+                segments.Add(new IvsSegment(segments[i - 1], 50 * MathF.Sin(Map(i, 0, segmentCount, 0, MathF.PI)), 0));
+
+            head = new Vector2f(winSizeX, winSizeY);
         }
 
         private void Run()
@@ -47,13 +50,22 @@ namespace InversKinematics
         private void HandleEvnet()
         {
             window.DispatchEvents();
+            DispatchEventsImmediatly();
         }
 
         private void Update()
         {
-            segments[0].LookAt((Vector2f)Mouse.GetPosition(window));
+            segments[0].LookAt(head);
             foreach (var segment in segments)
                 segment.Update();
+
+        }
+
+        private void ResizeSegments(List<IvsSegment> segments)
+        {
+            for (int i = 1; i < segmentCount; i++)
+                segments[i].Length = 50 * MathF.Sin(Map(i, 0, segmentCount, 0, MathF.PI));
+
         }
 
         private void Render()
@@ -80,6 +92,47 @@ namespace InversKinematics
             {
                 Initialize();
             }
+            if (e.Code == Keyboard.Key.Add)
+            {
+                int parentIdx = segments.Count - 1;
+                segments.Add(new IvsSegment(segments[parentIdx], 50 * MathF.Sin(Map(parentIdx, 0, segmentCount, 0, MathF.PI)), 0));
+                segmentCount++;
+                ResizeSegments(segments);
+            }
+            if (e.Code == Keyboard.Key.Subtract)
+            {
+                if (segments.Count > 5)
+                {
+                    segments.RemoveAt(segments.Count - 1);
+                    segmentCount--;
+                    ResizeSegments(segments);
+                }
+            }
+
+        }
+
+        private void DispatchEventsImmediatly()
+        {
+            OnKeyPressed();
+        }
+
+        private void OnKeyPressed()
+        {
+            Vector2f delta = new Vector2f(0, 0);
+
+            if (Keyboard.IsKeyPressed(Keyboard.Key.W))
+                delta.Y = -10f;
+            if (Keyboard.IsKeyPressed(Keyboard.Key.A))
+                delta.X = -10f;
+            if (Keyboard.IsKeyPressed(Keyboard.Key.S))
+                delta.Y = +10f;
+            if (Keyboard.IsKeyPressed(Keyboard.Key.D))
+                delta.X = +10f;
+
+            head += delta;
+
+            if (GetMagnitude(delta) < 0.1f)
+                head = (Vector2f)Mouse.GetPosition(window);
         }
     }
 
