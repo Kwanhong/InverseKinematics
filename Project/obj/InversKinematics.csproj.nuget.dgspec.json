@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Works\\Personal\\InverseKinematic\\project\\InversKinematics.csproj": {}
+    "C:\\Works\\Personal\\InverseKinematic\\Project\\InversKinematics.csproj": {}
   },
   "projects": {
-    "C:\\Works\\Personal\\InverseKinematic\\project\\InversKinematics.csproj": {
+    "C:\\Works\\Personal\\InverseKinematic\\Project\\InversKinematics.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Works\\Personal\\InverseKinematic\\project\\InversKinematics.csproj",
+        "projectUniqueName": "C:\\Works\\Personal\\InverseKinematic\\Project\\InversKinematics.csproj",
         "projectName": "InversKinematics",
-        "projectPath": "C:\\Works\\Personal\\InverseKinematic\\project\\InversKinematics.csproj",
+        "projectPath": "C:\\Works\\Personal\\InverseKinematic\\Project\\InversKinematics.csproj",
         "packagesPath": "C:\\Users\\rhksg\\.nuget\\packages\\",
-        "outputPath": "C:\\Works\\Personal\\InverseKinematic\\project\\obj\\",
+        "outputPath": "C:\\Works\\Personal\\InverseKinematic\\Project\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

@@ -3,6 +3,7 @@ using SFML.Graphics;
 using SFML.Window;
 using SFML.Audio;
 using SFML.System;
+using System.Collections.Generic;
 using static InversKinematics.Data;
 using static InversKinematics.Constants;
 using static InversKinematics.Utility;
@@ -11,8 +12,8 @@ namespace InversKinematics
 {
     public class Game
     {
-        private int tentacleCount = 5;
-        private Tentacle[] tentacles;
+        List<IvsSegment> segments;
+        int segmentCount = 50;
 
         public Game()
         {
@@ -26,14 +27,11 @@ namespace InversKinematics
             window.Closed += OnClose;
             window.KeyPressed += OnKeyPressed;
 
-            tentacles = new Tentacle[tentacleCount];
-            Random rnd = new Random();
-            for (int i = 0; i < tentacleCount; i++)
-            {
-                NoiseFactors noiseFactors = new NoiseFactors(randomSeed: i + rnd.Next(100), interval: 5, softness: 2.25f);
-                float xPosition = Map(i, 0, tentacleCount, winSizeX * 0.45f, winSizeX * 0.55f);
-                tentacles[i] = new Tentacle(noiseFactors, posX: xPosition);
-            }
+            segments = new List<IvsSegment>();
+            segments.Add(new IvsSegment(winSizeX / 2, winSizeY / 2, 10, 0));
+
+            for (int i = 1; i < segmentCount; i++)
+                segments.Add(new IvsSegment(segments[i - 1], 10, 0));
         }
 
         private void Run()
@@ -53,14 +51,15 @@ namespace InversKinematics
 
         private void Update()
         {
-            foreach (var tentacle in tentacles)
-                tentacle.Update();
+            segments[0].LookAt((Vector2f)Mouse.GetPosition(window));
+            foreach (var segment in segments)
+                segment.Update();
         }
 
         private void Render()
         {
-            foreach (var tentacle in tentacles)
-                tentacle.Display();
+            foreach (var segment in segments)
+                segment.Display();
 
             window.Display();
             window.Clear(new Color(46, 46, 46));
@@ -70,14 +69,15 @@ namespace InversKinematics
         {
             window.Close();
         }
-        
+
         private void OnKeyPressed(object sender, KeyEventArgs e)
         {
             if (e.Code == Keyboard.Key.Escape)
             {
                 window.Close();
             }
-            if (e.Code == Keyboard.Key.F5) {
+            if (e.Code == Keyboard.Key.F5)
+            {
                 Initialize();
             }
         }

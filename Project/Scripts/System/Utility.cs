@@ -104,6 +104,11 @@ namespace InversKinematics
             );
         }
 
+        public static float GetAngle(Vector2f pos)
+        {
+            return MathF.Atan2(pos.Y, pos.X);
+        }
+
         public static Vector2f RotateVector(Vector2f vector, float angle)
         {
             return new Vector2f

@@ -9,15 +9,15 @@ using static InversKinematics.Utility;
 namespace InversKinematics
 {
 
-    class Segment
+    class FwdSegment
     {
         public Vector2f StartPos { get; set; }
         public Vector2f EndPos { get; set; }
         public float Length { get; set; }
         public float Angle { get; set; }
 
-        public Segment Parent { get; set; } = null;
-        public Segment Child { get; set; } = null;
+        public FwdSegment Parent { get; set; } = null;
+        public FwdSegment Child { get; set; } = null;
 
         private float rootAngle;
         private float localAngle;
@@ -28,7 +28,7 @@ namespace InversKinematics
         private float offset = 0;
 
         // Root Segment
-        public Segment(float X, float Y, float length, float angle, NoiseFactors noiseFactors)
+        public FwdSegment(float X, float Y, float length, float angle, NoiseFactors noiseFactors)
         {
             this.Angle = angle;
             this.rootAngle = this.Angle;
@@ -42,7 +42,7 @@ namespace InversKinematics
         }
 
         // Child Segment
-        public Segment(Segment parent, float length, float angle, float offset)
+        public FwdSegment(FwdSegment parent, float length, float angle, float offset)
         {
             this.Parent = parent;
             this.StartPos = this.Parent.EndPos;
