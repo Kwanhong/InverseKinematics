@@ -61,6 +61,9 @@ namespace InversKinematics
         {
             Vector2f size = new Vector2f(Length, Length * 0.3f);
             RectangleShape rect = new RectangleShape(size);
+            rect.OutlineThickness = 1f;
+            rect.OutlineColor = new Color(200, 200, 200, 125);
+            rect.FillColor = new Color(100,100,100);
             rect.Origin = new Vector2f(0, size.Y / 2);
             rect.Position = StartPos;
             rect.Rotation = ToDegree(Angle);
